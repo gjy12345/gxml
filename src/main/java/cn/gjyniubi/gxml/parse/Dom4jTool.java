@@ -1,7 +1,6 @@
 package cn.gjyniubi.gxml.parse;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
@@ -20,8 +19,11 @@ public class Dom4jTool {
         return new SAXReader().read(file);
     }
 
-    public Document parseXmlByUrl(URL url) throws DocumentException {
+    public static Document parseXmlByUrl(URL url) throws DocumentException {
         return new SAXReader().read(url);
     }
 
+    public static Document parseXmlByUrl(String url) throws DocumentException {
+        return new SAXReader().read(url);
+    }
 }
