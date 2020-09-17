@@ -28,11 +28,11 @@ public class XmlParseEngine {
         DocumentFactory.getInstance().setXPathNamespaceURIs(uriMap);
     }
 
-    public static <T> T parseXmlToObject(Class<T> oClass, Document document) throws Exception{
+    public static <T> T parseXmlToObjectBean(Class<T> oClass, Document document) throws Exception{
         return parseXmlToObject(oClass,document);
     }
 
-    public static <T> T parseXmlToObject(Class<T> oClass, Node document, XmlRule... append) throws Exception{
+    private static <T> T parseXmlToObject(Class<T> oClass, Node document, XmlRule... append) throws Exception{
         if(document==null)
             return null;
         T object=oClass.newInstance();
