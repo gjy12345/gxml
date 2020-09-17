@@ -1,8 +1,7 @@
 package cn.gjyniubi.gxml.test;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentFactory;
-import org.dom4j.Node;
+import cn.gjyniubi.gxml.parse.Dom4jTool;
+import org.dom4j.*;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -33,7 +32,7 @@ public class XmlParseEngine {
         return parseXmlToObject(oClass,document,null);
     }
 
-    public static <T> T parseXmlToObject(Class<T> oClass, Document document,XmlRule... append) throws Exception{
+    public static <T> T parseXmlToObject(Class<T> oClass, Node document, XmlRule... append) throws Exception{
         if(document==null)
             return null;
         T object=oClass.newInstance();
@@ -65,7 +64,7 @@ public class XmlParseEngine {
     }
 
 
-    private static void getXmlValues(Field field,String type,Object object,XmlRule xmlRule,Document document,XmlRule... append) throws Exception{
+    private static void getXmlValues(Field field,String type,Object object,XmlRule xmlRule,Node document,XmlRule... append) throws Exception{
         String rule="";
         if(append!=null&&append.length>0){
             for (int i = 0; i < append.length; i++) {
@@ -85,8 +84,9 @@ public class XmlParseEngine {
             Object singleObject;
             append=Arrays.copyOf(append,append.length+1);
             append[append.length-1]=xmlRule;
+            Element element;
             for (int i = 0; i < nodes.size(); i++) {
-                singleObject=parseXmlToObject(Class.forName(type),document,append);
+                singleObject=parseXmlToObject(Class.forName(type), nodes.get(i),null);
                 Array.set(objectArray,i,singleObject);
             }
         }
@@ -103,7 +103,7 @@ public class XmlParseEngine {
         }
     }
 
-    private static void getXmlValue(Field field,Object object,XmlRule xmlRule,Document document,XmlRule... append) throws Exception{
+    private static void getXmlValue(Field field,Object object,XmlRule xmlRule,Node document,XmlRule... append) throws Exception{
         String rule="";
         if(append!=null&&append.length>0){
             for (int i = 0; i < append.length; i++) {
@@ -116,7 +116,7 @@ public class XmlParseEngine {
         field.set(object,getNodeValue(node,xmlRule,document,field.getGenericType().getTypeName()));
     }
 
-    private static Object getNodeValue(Node node,XmlRule xmlRule,Document document,String type){
+    private static Object getNodeValue(Node node,XmlRule xmlRule,Node document,String type){
         if(node==null)
             return null;
         String v;
