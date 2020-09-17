@@ -29,7 +29,7 @@ public class XmlParseEngine {
     }
 
     public static <T> T parseXmlToObject(Class<T> oClass, Document document) throws Exception{
-        return parseXmlToObject(oClass,document,null);
+        return parseXmlToObject(oClass,document);
     }
 
     public static <T> T parseXmlToObject(Class<T> oClass, Node document, XmlRule... append) throws Exception{
@@ -82,11 +82,8 @@ public class XmlParseEngine {
             }
         }else {
             Object singleObject;
-            append=Arrays.copyOf(append,append.length+1);
-            append[append.length-1]=xmlRule;
-            Element element;
             for (int i = 0; i < nodes.size(); i++) {
-                singleObject=parseXmlToObject(Class.forName(type), nodes.get(i),null);
+                singleObject=parseXmlToObject(Class.forName(type), nodes.get(i),append);
                 Array.set(objectArray,i,singleObject);
             }
         }
